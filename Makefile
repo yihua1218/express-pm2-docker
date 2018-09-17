@@ -1,4 +1,4 @@
-ECRREPOURI	:= "903779448426.dkr.ecr.us-west-2.amazonaws.com/pm2-express-demo"
+ECRREPOURI	:= "776072350111.dkr.ecr.us-west-2.amazonaws.com/pm2-express-demo"
 
 build:
 	docker build -t pm2-express-demo .
@@ -12,3 +12,9 @@ tag:
 	docker tag pm2-express-demo:latest $(ECRREPOURI)
 push:
 	docker push $(ECRREPOURI)
+alb:
+	fargate --region us-west-2 lb create demoalb -p 80 --security-group-id sg-bc2b14c5
+service:
+	fargate --region us-west-2 service create demoexpress -l demoalb -p http:8080 -i $(ECRREPOURI) --security-group-id sg-bc2b14c5
+dns:
+	fargate --region us-west-2 service info demoexpress
