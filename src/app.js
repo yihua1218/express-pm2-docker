@@ -14,7 +14,7 @@ const app = express();
 app.use(morgan('combined'))
 
 app.get('/', (req, res) => {
-  res.send('Hello World\n');
+  res.send('Hello Yi-Hua\n');
 });
 
 app.listen(PORT, HOST);
